@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nihongo Quest — 日本語クエスト</title>
+<style>
+:root{--bg:#fff7f5;--card:#fff;--ink:#22181a;--mute:#7a6a6d;--red:#c8102e;--red2:#e5465f;--pink:#ffd9e2;--ok:#1f9d55;--okbg:#dcf5e6;--no:#d23b3b;--nobg:#fde2e2;--line:#f0dfe2;--sh:0 6px 24px rgba(200,16,46,.10);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1214;--card:#271b1e;--ink:#f6eaec;--mute:#b59ca1;--pink:#4a2630;--okbg:#14382a;--nobg:#4a1d1d;--line:#3a2a2e;--sh:0 6px 24px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#1a1214;--card:#271b1e;--ink:#f6eaec;--mute:#b59ca1;--pink:#4a2630;--okbg:#14382a;--nobg:#4a1d1d;--line:#3a2a2e;--sh:0 6px 24px rgba(0,0,0,.4)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Noto Sans JP","Hiragino Sans","Yu Gothic","Segoe UI",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+#bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.sun{position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,var(--red) 0 55%,transparent 56%);opacity:.12}
+.p{position:absolute;top:-30px;font-size:20px;opacity:.6;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg) translateX(40px)}}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;align-items:center;padding:10px 14px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+nav b{color:var(--red);margin-right:auto;font-size:18px;cursor:pointer}
+nav button{font-size:14px}
+main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:18px 14px 60px}
+.card{background:var(--card);border-radius:20px;box-shadow:var(--sh);padding:20px;margin-bottom:16px;border:1px solid var(--line)}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:10px 16px;background:var(--pink);color:var(--ink);transition:transform .15s,box-shadow .15s,background .2s}
+button:hover{transform:translateY(-2px);box-shadow:var(--sh)}button:active{transform:scale(.96)}
+button:disabled{cursor:default;transform:none;box-shadow:none}
+.pri{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;font-weight:700}
+.big{font-size:20px;padding:16px 24px;width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat{text-align:center;background:var(--bg);border-radius:14px;padding:12px}.stat b{display:block;font-size:24px;color:var(--red)}.stat small{color:var(--mute)}
+h1,h2,h3{margin:.2em 0}h1{font-size:30px}.mute{color:var(--mute)}
+.fade{animation:in .35s ease}@keyframes in{from{opacity:0;transform:translateY(12px)}}
+.bar{height:12px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--red2));transition:width .4s;border-radius:9px}
+.mascot{display:flex;gap:12px;align-items:center}.mascot .m{font-size:52px;animation:bob 2s ease-in-out infinite;cursor:pointer}.bubble{background:var(--pink);padding:10px 14px;border-radius:14px;flex:1}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-5deg)}}
+.q{font-size:28px;font-weight:700;text-align:center;margin:12px 0 20px}
+.opt{display:block;width:100%;text-align:left;margin-bottom:10px;padding:14px 16px;font-size:18px;background:var(--card);border:2px solid var(--line)}
+.opt.ok{background:var(--okbg);border-color:var(--ok);animation:pop .4s}.opt.no{background:var(--nobg);border-color:var(--no);animation:shake .4s}
+@keyframes pop{50%{transform:scale(1.03)}}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{padding:12px;border-radius:12px;margin:10px 0;font-weight:700}.fb.ok{background:var(--okbg);color:var(--ok)}.fb.no{background:var(--nobg);color:var(--no)}
+.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px;margin-bottom:8px}
+.hg{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.hg button{font-size:28px;padding:12px 0;background:var(--card);border:1px solid var(--line)}.hg i{visibility:hidden}
+.item{padding:10px 0;border-bottom:1px solid var(--line)}.badge{display:inline-block;padding:6px 10px;margin:3px;border-radius:12px;background:var(--pink)}.badge.off{opacity:.35;filter:grayscale(1)}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:20;padding:20px}#modal .card{max-width:360px}
+.cf{position:fixed;top:-20px;width:10px;height:14px;z-index:30;animation:cf 2.5s ease-in forwards;pointer-events:none}@keyframes cf{to{transform:translateY(105vh) rotate(720deg)}}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--red);color:#fff;padding:10px 18px;border-radius:20px;z-index:25;animation:in .3s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="bg"><div class="sun"></div></div>
+<nav><b onclick="go('home')">🌸 Nihongo Quest</b><button onclick="go('home')">Beranda</button><button onclick="go('stats')">Statistik</button><button onclick="go('hira')">Hiragana</button><button onclick="go('review')">Review</button><button onclick="go('settings')">⚙️</button></nav>
+<main id="app"></main>
+<div id="modal"><div class="card"><p id="mt"></p><div class="row"><button id="mn">Batal</button><button class="pri" id="my">Ya</button></div></div></div>
+<script>
+/* ===== BANK SOAL (format: tipe|data...|kunci 0-2). Tipe: M=Apa arti dari, H=hiragana bunyi, R=cara baca, S=kalimat ===== */
+const RAW=`M|あさ|Malam|Pagi|Siang|1
+M|よる|Malam|Pagi|Sore|0
+M|みず|Susu|Teh|Air|2
+M|ごはん|Nasi atau makanan|Buku|Rumah|0
+M|がっこう|Rumah sakit|Sekolah|Stasiun|1
+M|ともだち|Guru|Keluarga|Teman|2
+M|せんせい|Guru|Murid|Teman|0
+M|ほん|Pensil|Buku|Tas|1
+M|いえ|Toko|Sekolah|Rumah|2
+M|くるま|Mobil|Sepeda|Kereta|0
+M|でんしゃ|Pesawat|Kereta|Bus|1
+M|ねこ|Anjing|Burung|Kucing|2
+M|いぬ|Anjing|Kucing|Ikan|0
+M|たべもの|Minuman|Makanan|Pakaian|1
+M|のみもの|Makanan|Buah|Minuman|2
+M|きょう|Hari ini|Kemarin|Besok|0
+M|あした|Kemarin|Besok|Hari ini|1
+M|きのう|Besok|Hari ini|Kemarin|2
+M|いま|Sekarang|Nanti|Kemarin|0
+M|おかね|Waktu|Uang|Air|1
+M|たべます|Tidur|Makan|Minum|1
+M|のみます|Minum|Membaca|Pergi|0
+M|ねます|Bangun|Belajar|Tidur|2
+M|おきます|Tidur|Bangun|Pulang|1
+M|いきます|Pergi|Datang|Pulang|0
+M|きます|Membeli|Pulang|Datang|2
+M|かえります|Pergi|Pulang|Membaca|1
+M|みます|Melihat atau menonton|Mendengar|Menulis|0
+M|ききます|Berbicara|Membeli|Mendengar atau bertanya|2
+M|よみます|Menulis|Membaca|Berbicara|1
+M|かきます|Menulis|Membaca|Mendengar|0
+M|はなします|Tidur|Makan|Berbicara|2
+M|べんきょうします|Bekerja|Belajar|Bermain|1
+M|はたらきます|Bekerja|Belajar|Berjalan|0
+M|かいます|Menjual|Membaca|Membeli|2
+M|あいます|Makan|Bertemu|Tidur|1
+M|まちます|Menunggu|Berjalan|Berbicara|0
+M|つくります|Menggunakan|Membuka|Membuat|2
+M|あそびます|Belajar|Bermain|Bekerja|1
+M|わかります|Mengerti|Lupa|Membeli|0
+H|a|い|あ|う|1
+H|ki|き|さ|ち|0
+H|su|せ|し|す|2
+H|ne|ぬ|ね|の|1
+H|ho|ほ|は|へ|0
+H|mu|め|も|む|2
+H|ri|る|り|れ|1
+H|yo|よ|や|ゆ|0
+H|wa|を|ん|わ|2
+H|tsu|て|つ|と|1
+R|さかな|Sakana|Sakani|Sakane|0
+R|やま|Yami|Yuma|Yama|2
+R|そら|Sorae|Sora|Sura|1
+R|はな|Hana|Hane|Hina|0
+R|くち|Kuchi|Kutsu|Kuchī|0
+R|みみ|Mimi|Mame|Mumu|0
+R|あたま|Atama|Atami|Atamu|0
+R|からだ|Karada|Korada|Kurada|0
+R|でんわ|Denwa|Dengwa|Denha|0
+R|じかん|Jikan|Jiken|Jukan|0
+S|わたし ___ がくせいです。|を|は|に|1
+S|みず ___ のみます。|を|は|で|0
+S|がっこう ___ いきます。|を|が|に|2
+S|ともだち ___ あいます。|に|を|で|0
+S|うち ___ べんきょうします。|に|で|を|1
+S|これは ___ です。|ほん|たべます|いきます|0
+S|わたしは ごはんを ___。|のみます|ねます|たべます|2
+S|まいにち がっこうへ ___。|いきます|たべます|かきます|0
+S|よる 11じに ___。|おきます|ねます|きます|1
+S|あさ 7じに ___。|ねます|かえります|おきます|2
+S|ほんを ___。|よみます|のみます|あいます|0
+S|てがみを ___。|みます|かきます|ききます|1
+S|おんがくを ___。|たべます|いきます|ききます|2
+S|ともだちと ___。|はなします|ねます|のみます|0
+S|みせで りんごを ___。|よみます|かいます|ねます|1
+S|せんせいは がっこうに ___。|います|あります|たべます|0
+S|つくえのうえに ほんが ___。|います|いきます|あります|2
+S|これは わたし ___ かばんです。|の|を|に|0
+S|あした ともだち ___ あいます。|を|に|で|1
+S|まいあさ みず ___ のみます。|が|で|を|2
+M|ください|Silakan berikan|Selamat tinggal|Terima kasih|0
+M|ありがとう|Maaf|Terima kasih|Permisi|1
+M|すみません|Selamat pagi|Sampai jumpa|Permisi atau maaf|2
+M|おはよう|Selamat pagi|Selamat malam|Selamat siang|0
+M|こんばんは|Selamat pagi|Selamat malam|Selamat tinggal|1
+M|さようなら|Terima kasih|Permisi|Selamat tinggal|2
+M|どうぞ|Silakan|Tidak|Mengapa|0
+M|どこ|Kapan|Di mana|Siapa|1
+M|いつ|Siapa|Apa|Kapan|2
+M|だれ|Siapa|Di mana|Mengapa|0
+M|なに|Kapan|Apa|Siapa|1
+M|どうして|Di mana|Siapa|Mengapa|2
+M|いくら|Berapa harga|Jam berapa|Berapa orang|0
+M|なんじ|Berapa harga|Jam berapa|Hari apa|1
+M|いっしょに|Sendirian|Besok|Bersama-sama|2
+M|ちょっと|Sedikit atau sebentar|Sangat|Selalu|0
+M|たくさん|Sedikit|Banyak|Cepat|1
+M|はやく|Pelan-pelan|Kemarin|Cepat atau lebih awal|2
+M|ゆっくり|Pelan-pelan|Cepat|Banyak|0
+M|もういちど|Sampai besok|Sekali lagi|Terima kasih|1`;
+
+/* Adaptor: ubah satu baris mentah menjadi {id,q,opts[],ans,exp}. Baris tidak valid dilewati. */
+function parseBank(raw){const out=[];raw.split('\n').forEach(l=>{const p=l.trim().split('|');if(p.length<5)return;
+ const t=p[0],k=+p[p.length-1],o=p.slice(2,p.length-1);let q,w=p[1];
+ if(t==='M')q=`Apa arti dari ${w}?`;else if(t==='H')q=`Manakah hiragana untuk bunyi '${w}'?`;else if(t==='R')q=`Bagaimana membaca ${w}?`;else if(t==='S'){q=w;}else return;
+ if(!(k>=0&&k<o.length)||o.some(x=>!x))return;const a=o[k];
+ const exp=t==='M'?`${w} = ${a}`:t==='H'?`${a} dibaca "${w}"`:t==='R'?`${w} dibaca ${a}`:q.replace('___',a);
+ out.push({id:out.length+1,q,opts:o,ans:k,exp});});return out;}
+const BANK=parseBank(RAW),PER=25;
+
+/* ===== PENYIMPANAN ===== */
+const KEY='nihongo_quest_v1';
+const DEF=()=>({name:'',xp:0,sessions:0,answered:0,correct:0,best:0,scoreSum:0,bestStreak:0,rem:[],seen:[],wrong:[],badges:[],sound:true,hist:[]});
+let S=DEF();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d)S=Object.assign(DEF(),d);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+/* ===== UTIL ===== */
+const $=s=>document.querySelector(s),app=$('#app');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOTIV=['一歩ずつ！ Selangkah demi selangkah!','Terus berlatih, kemampuan bahasa Jepangmu akan meningkat!','間違いは学びのチャンス！ Kesalahan adalah kesempatan untuk belajar!','頑張れ！ Semangat!','毎日少しずつ！ Sedikit demi sedikit setiap hari!'];
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;} // Fisher-Yates
+const fmt=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+const level=()=>Math.floor(S.xp/100)+1,lvPct=()=>S.xp%100;
+const acc=()=>S.answered?Math.round(S.correct/S.answered*100):0;
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200);}
+function ask(msg,ok){$('#mt').textContent=msg;$('#modal').style.display='flex';$('#mn').onclick=()=>$('#modal').style.display='none';$('#my').onclick=()=>{$('#modal').style.display='none';ok();};}
+let AC;function beep(good){if(!S.sound)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=good?660:220;o.type=good?'sine':'sawtooth';g.gain.setValueAtTime(.12,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.3);o.start();o.stop(AC.currentTime+.3);if(good){o.frequency.setValueAtTime(880,AC.currentTime+.12);}}catch(e){}}
+function confetti(){if(reduce)return;for(let i=0;i<40;i++){const c=document.createElement('div');c.className='cf';c.style.left=Math.random()*100+'vw';c.style.background=rnd(['#c8102e','#ffd9e2','#f5c518','#fff','#1f9d55']);c.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),3500);}}
+(function petals(){const b=$('#bg');if(reduce)return;for(let i=0;i<10;i++){const p=document.createElement('div');p.className='p';p.textContent='🌸';p.style.left=Math.random()*100+'%';p.style.animationDuration=12+Math.random()*10+'s';p.style.animationDelay=-Math.random()*20+'s';b.appendChild(p);}})();
+
+/* ===== LOGIKA SESI 25 SOAL (siklus 100 soal tanpa pengulangan) ===== */
+function pickSession(){
+ const all=BANK.map(q=>q.id);let rem=shuffle(S.rem.filter(id=>all.includes(id)));let take=[];
+ if(rem.length<PER){take=rem;rem=shuffle(all.filter(id=>!take.includes(id)));} // sisa + siklus baru, tanpa duplikat
+ const need=PER-take.length;take=take.concat(rem.slice(0,need));rem=rem.slice(need);
+ S.rem=rem;save();return shuffle(take);
+}
+const checkAnswer=(q,i)=>i===q.ans;                     // validasi jawaban
+const calcScore=c=>c*4;                                 // skor
+function levelUpdate(){return level();}
+
+/* ===== NAVIGASI ===== */
+let Q=null,tick=null;
+function go(s,a){if(tick){clearInterval(tick);tick=null;}
+ if(Q&&!Q.done&&s!=='quiz'&&!a){return ask('Keluar dari sesi? Progres sesi ini akan hilang.',()=>{Q=null;go(s,1);});}
+ window.scrollTo(0,0);app.className='fade';void app.offsetWidth;(V[s]||V.home)();}
+const V={};
+
+V.home=()=>{
+ app.innerHTML=`<div class="card"><div style="text-align:center"><div style="font-size:48px">🌸⛩️</div><h1>Nihongo Quest <span style="color:var(--red)">日本語クエスト</span></h1><p class="mute">Belajar Bahasa Jepang, Satu Soal Setiap Langkah!</p></div>
+ <h3>こんにちは, ${esc(S.name||'Pelajar')}! 👋</h3>
+ <div class="grid"><div class="stat"><b>${BANK.length}</b><small>Total soal</small></div><div class="stat"><b>${PER}</b><small>Soal per sesi</small></div><div class="stat"><b>${S.answered}</b><small>Sudah dijawab</small></div><div class="stat"><b>${acc()}%</b><small>Akurasi</small></div></div>
+ <p style="margin:14px 0 4px">⭐ Level ${level()} · ${S.xp} XP</p><div class="bar"><i style="width:${lvPct()}%"></i></div></div>
+ <div class="card mascot"><div class="m" onclick="$('#mb').textContent=rnd(MOTIV)">🐱</div><div class="bubble" id="mb">${rnd(MOTIV)}</div></div>
+ ${BANK.length?'':'<div class="card fb no">Bank soal kosong atau format tidak valid.</div>'}
+ <button class="pri big" onclick="go('mode')" ${BANK.length?'':'disabled'}>▶ Mulai Belajar</button>
+ <div class="row" style="margin-top:10px"><button onclick="go('stats')">📊 Lihat Statistik</button><button onclick="go('hira')">あ Pelajari Hiragana</button></div>`;};
+
+V.mode=()=>{app.innerHTML=`<div class="card"><h2>Pilih Mode</h2><p class="mute">Setiap sesi berisi ${PER} soal acak dari ${BANK.length} soal.</p>
+ <button class="opt" onclick="startSession('practice')">📖 <b>Mode Latihan</b><br><small class="mute">Tanpa timer, santai.</small></button>
+ <button class="opt" onclick="startSession('challenge')">⚡ <b>Mode Tantangan</b><br><small class="mute">Timer 20 detik per soal (bisa dimatikan di bawah).</small></button>
+ <label><input type="checkbox" id="tmr" checked> Aktifkan timer di Mode Tantangan</label></div><button onclick="go('home')">← Kembali</button>`;};
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function startSession(mode,ids){
+ const timer=mode==='challenge'&&($('#tmr')?$('#tmr').checked:true);
+ const list=ids||pickSession();
+ Q={mode,timer,ids:list,i:0,right:0,wrong:0,streak:0,res:[],t0:Date.now(),done:false,answered:false,retry:!!ids};
+ go('quiz',1);}
+function startRetry(){const ids=S.wrong.filter(id=>BANK.some(q=>q.id===id));if(!ids.length)return toast('Tidak ada soal salah 🎉');startSession('practice',shuffle(ids).slice(0,PER));}
+
+V.quiz=()=>{
+ const q=BANK.find(x=>x.id===Q.ids[Q.i]);Q.q=q;Q.answered=false;Q.order=shuffle(q.opts.map((_,i)=>i));Q.left=20;
+ const L='ABCD',last=Q.i===Q.ids.length-1;
+ app.innerHTML=`<div class="card"><div class="top"><b>Soal ${Q.i+1} dari ${Q.ids.length}</b><span>✅ ${Q.right} · ❌ ${Q.wrong} · 🔥 ${Q.streak}</span><span id="tm"></span></div>
+ <div class="bar"><i style="width:${Q.i/Q.ids.length*100}%"></i></div>
+ <div class="q">${esc(q.q)}</div><div id="opts">${Q.order.map((oi,k)=>`<button class="opt" data-k="${k}" onclick="answer(${k})">${L[k]}. ${esc(q.opts[oi])}</button>`).join('')}</div>
+ <div id="fb"></div><button class="pri big" id="nx" style="display:none" onclick="nextQ()">${last?'Lihat Hasil 🏁':'Soal Berikutnya →'}</button></div>
+ <button onclick="go('home')">← Beranda</button>`;
+ tickUpdate();if(tick)clearInterval(tick);
+ tick=setInterval(()=>{if(Q.answered)return;if(Q.timer){Q.left--;if(Q.left<=0){answer(-1);return;}}tickUpdate();},1000);};
+function tickUpdate(){const t=$('#tm');if(!t)return;t.textContent=Q.timer?`⏱ ${Q.left}s`:`⏱ ${fmt((Date.now()-Q.t0)/1000)}`;}
+
+function answer(k){
+ if(Q.answered)return;Q.answered=true;const q=Q.q,chosen=k<0?-1:Q.order[k],good=k>=0&&checkAnswer(q,chosen);
+ document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(Q.order[i]===q.ans)b.classList.add('ok');if(i===k&&!good)b.classList.add('no');});
+ let msg;
+ if(good){Q.right++;Q.streak++;S.correct++;S.xp+=10+(Q.streak>=5?5:0);S.wrong=S.wrong.filter(x=>x!==q.id);beep(true);msg='正解！ — Jawaban Benar!';
+  if([5,10,15].includes(Q.streak)){toast(`🔥 Streak ${Q.streak}! Hebat!`);confetti();}}
+ else{Q.wrong++;Q.streak=0;if(!S.wrong.includes(q.id))S.wrong.push(q.id);beep(false);msg=k<0?'時間切れ！ — Waktu Habis!':'残念！ — Belum Tepat!';}
+ S.answered++;S.bestStreak=Math.max(S.bestStreak,Q.streak);
+ if(!S.seen.includes(q.id))S.seen.push(q.id);
+ Q.res.push({id:q.id,chosen,good});save();
+ $('#fb').innerHTML=`<div class="fb ${good?'ok':'no'}">${msg}<br><small>💡 ${esc(q.exp)}</small></div>`;
+ $('#nx').style.display='block';$('#nx').focus();}
+
+function nextQ(){if(Q.i<Q.ids.length-1){Q.i++;V.quiz();}else finish();}
+
+function finish(){
+ clearInterval(tick);Q.done=true;const dur=Math.round((Date.now()-Q.t0)/1000),n=Q.ids.length;
+ Q.score=Q.retry?Math.round(Q.right/n*100):calcScore(Q.right);Q.dur=dur;
+ if(!Q.retry){S.sessions++;S.best=Math.max(S.best,Q.score);S.scoreSum+=Q.score;S.hist.push({d:Date.now(),s:Q.score,c:Q.right});if(S.hist.length>50)S.hist.shift();}
+ const B=[['first','🥇 First Step',S.sessions>=1],['perfect','💯 Perfect Score',S.best>=100],['master','あ Hiragana Master',!Q.retry&&Q.score>=90||S.badges.includes('master')],['persist','📚 Persistent Learner',S.sessions>=4],['streak','🔥 Streak 10',S.bestStreak>=10]];
+ B.forEach(([id,name,ok])=>{if(ok&&!S.badges.includes(id)){S.badges.push(id);toast('Badge baru: '+name);}});
+ save();go('result',1);}
+
+V.result=()=>{
+ const s=Q.score,n=Q.ids.length,[t,c]=s>=90?['すごい！ Luar Biasa!','🏆']:s>=75?['よくできました！ Kerja Bagus!','🎉']:s>=60?['がんばって！ Terus Berlatih!','💪']:['あきらめないで！ Jangan Menyerah!','🌱'];
+ if(s>=75)confetti();
+ app.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:64px">${c}</div><h1>${t}</h1><h1 style="color:var(--red);font-size:56px">${s}<small class="mute" style="font-size:20px">/100</small></h1><p>${rnd(MOTIV)}</p>
+ <div class="grid"><div class="stat"><b>${Q.right}</b><small>Benar</small></div><div class="stat"><b>${Q.wrong}</b><small>Salah</small></div><div class="stat"><b>${Math.round(Q.right/n*100)}%</b><small>Akurasi</small></div><div class="stat"><b>${fmt(Q.dur)}</b><small>Durasi</small></div></div></div>
+ <div class="card"><h3>Ringkasan Jawaban</h3>${Q.res.map((r,i)=>{const q=BANK.find(x=>x.id===r.id);return`<div class="item">${r.good?'✅':'❌'} ${i+1}. ${esc(q.q)}<br><small class="mute">Jawaban benar: ${esc(q.opts[q.ans])}${r.good?'':' · Pilihanmu: '+(r.chosen<0?'(waktu habis)':esc(q.opts[r.chosen]))}</small></div>`}).join('')}</div>
+ <div class="row"><button class="pri" onclick="go('mode',1)">🔄 Mulai Sesi Baru</button><button onclick="go('review',1)">❌ Lihat Soal Salah</button><button onclick="Q=null;go('home',1)">🏠 Beranda</button></div>`;};
+
+V.review=()=>{const w=S.wrong.map(id=>BANK.find(q=>q.id===id)).filter(Boolean);
+ app.innerHTML=`<div class="card"><h2>Review Soal yang Salah</h2>${w.length?w.map(q=>`<div class="item"><b>${esc(q.q)}</b><br>✅ ${esc(q.opts[q.ans])}<br><small class="mute">${esc(q.exp)}</small></div>`).join(''):'<p>Belum ada soal salah. Bagus sekali! 🎉</p>'}</div>
+ <div class="row"><button class="pri" onclick="startRetry()" ${w.length?'':'disabled'}>🔁 Ulangi Soal Salah (${w.length})</button><button onclick="go('home')">🏠 Beranda</button></div>`;};
+
+V.stats=()=>{const avg=S.sessions?Math.round(S.scoreSum/S.sessions):0;
+ const BD=[['first','🥇 First Step','Selesaikan sesi pertama'],['perfect','💯 Perfect Score','Skor 100'],['master','あ Hiragana Master','Skor sesi ≥ 90'],['persist','📚 Persistent Learner','Selesaikan 4 sesi'],['streak','🔥 Streak 10','10 benar berturut-turut']];
+ app.innerHTML=`<div class="card"><h2>📊 Statistik</h2><div class="grid">
+ <div class="stat"><b>${S.sessions}</b><small>Sesi</small></div><div class="stat"><b>${avg}</b><small>Rata-rata skor</small></div><div class="stat"><b>${S.best}</b><small>Skor tertinggi</small></div><div class="stat"><b>${S.answered}</b><small>Soal dikerjakan</small></div><div class="stat"><b>${acc()}%</b><small>Akurasi</small></div><div class="stat"><b>${S.seen.length}/${BANK.length}</b><small>Soal unik dicoba</small></div><div class="stat"><b>${S.bestStreak}</b><small>Streak terbaik</small></div><div class="stat"><b>Lv ${level()}</b><small>${S.xp} XP</small></div></div>
+ <p style="margin:14px 0 4px">Menuju level ${level()+1}</p><div class="bar"><i style="width:${lvPct()}%"></i></div></div>
+ <div class="card"><h3>🏅 Badge</h3>${BD.map(b=>`<span class="badge ${S.badges.includes(b[0])?'':'off'}" title="${b[2]}">${b[1]}</span>`).join('')}</div><button onclick="go('home')">🏠 Beranda</button>`;};
+
+const HR=[['あいうえお','a i u e o'],['かきくけこ','ka ki ku ke ko'],['さしすせそ','sa shi su se so'],['たちつてと','ta chi tsu te to'],['なにぬねの','na ni nu ne no'],['はひふへほ','ha hi fu he ho'],['まみむめも','ma mi mu me mo'],['や ゆ よ','ya - yu - yo'],['らりるれろ','ra ri ru re ro'],['わ を ん','wa - wo - n']];
+const HINT={a:'seperti "a" pada "apa"',i:'seperti "i" pada "ini"',u:'seperti "u" pada "udang"',e:'seperti "e" pada "enak"',o:'seperti "o" pada "obat"',shi:'seperti "syi"',chi:'seperti "chi" / "ti" cepat',tsu:'seperti "tsu" pada "tsunami"',fu:'antara "fu" dan "hu", bibir ringan',n:'sengau "n/ng" di akhir kata',wo:'dibaca "o", partikel objek',ra:'r ringan antara r dan l',ri:'r ringan',ru:'r ringan',re:'r ringan',ro:'r ringan'};
+V.hira=()=>{const cells=[];HR.forEach(([c,r])=>{const cs=c.replace(/ /g,'').split(''),rs=r.split(' ').filter(x=>x!=='-');
+ if(cs.length===3){const tmp=[cs[0],'',cs[1],'',cs[2]],rt=[rs[0],'',rs[1],'',rs[2]];tmp.forEach((ch,i)=>cells.push(ch?`<button onclick="hSel('${ch}','${rt[i]}')">${ch}</button>`:'<i></i>'));}
+ else cs.forEach((ch,i)=>cells.push(`<button onclick="hSel('${ch}','${rs[i]}')">${ch}</button>`));});
+ app.innerHTML=`<div class="card"><h2>あ Pelajari Hiragana</h2><p class="mute">Klik karakter untuk melihat romaji dan mendengar pengucapan.</p><div class="hg">${cells.join('')}</div></div>
+ <div class="card" id="hp" style="text-align:center"><p class="mute">Pilih sebuah karakter di atas 👆</p></div><button onclick="go('home')">🏠 Beranda</button>`;};
+function speak(t){try{if(!('speechSynthesis' in window))return toast('Browser tidak mendukung audio');const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.rate=.8;const v=speechSynthesis.getVoices().find(x=>x.lang&&x.lang.startsWith('ja'));if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){toast('Audio tidak tersedia');}}
+function hSel(c,r){$('#hp').innerHTML=`<div style="font-size:80px;color:var(--red)">${c}</div><h2>${r}</h2><p>Pengucapan: ${HINT[r]||`dibaca "${r}"`}</p><button class="pri" onclick="speak('${c}')">🔊 Dengarkan</button>`;speak(c);}
+
+V.settings=()=>{app.innerHTML=`<div class="card"><h2>⚙️ Pengaturan</h2>
+ <p><label>Namamu: <input id="nm" value="${esc(S.name)}" maxlength="20" style="font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)"></label> <button onclick="S.name=$('#nm').value.trim();save();toast('Tersimpan ✔')">Simpan</button></p>
+ <p><button onclick="S.sound=!S.sound;save();go('settings')">${S.sound?'🔊 Suara: Aktif':'🔇 Suara: Mati (mute)'}</button></p>
+ <p><button style="background:var(--nobg);color:var(--no)" onclick="ask('Hapus semua progres (XP, statistik, badge, riwayat soal)?',()=>{S=DEF();save();toast('Progres direset');go('home',1);})">🗑 Reset Progres</button></p></div><button onclick="go('home')">🏠 Beranda</button>`;};
+
+go('home',1);
+</script>
+</body>
+</html>
